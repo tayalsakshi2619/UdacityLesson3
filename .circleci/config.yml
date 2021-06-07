@@ -2,17 +2,22 @@ version: 2.1
 commands:
     print_pipeline_id:
         steps:
-            - run: echo ${CIRCLE_WORKFLOW_ID} 
+            - run: echo ${CIRCLE_WORKFLOW_ID}
+            - run: return 1
+            - run:
+                name: on error
+                command: echo Hello Error
+                when: on_fail
 jobs:
     create_helloWorld_file:
         docker:
            - image: circleci/node:13.8.0
         steps: 
-           - run: echo "Hello Shubieee!" > ~/output.txt
+           - run: echo "Hello Shubieee!" > ~/output1.txt
            - persist_to_workspace:
                  root: ~/
                  paths:
-                     - output.txt
+                     - output1.txt
 
     print_helloWorld_file:
         docker:
@@ -20,7 +25,7 @@ jobs:
         steps:
            - attach_workspace:
                  at: ~/
-           - run: cat ~/output.txt
+           - run: cat ~/output1.txt
 
     my_job:
         docker:
