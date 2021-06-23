@@ -8,8 +8,11 @@ jobs:
            - run:
                  name: Install ssh
                  command: |
-                     apk add --no-cache openssh-client \
-                     ssh-keyscan ec2-54-188-13-132.us-west-2.compute.amazonaws.com > ~/.ssh/known_hosts
+                     apk update && apk add openssh
+           - run:
+                 name: Install ssh
+                 command: |
+                        ssh-keyscan ec2-54-188-13-132.us-west-2.compute.amazonaws.com > ~/.ssh/known_hosts
            
                  
            - add_ssh_keys:
