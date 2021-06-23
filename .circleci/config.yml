@@ -4,16 +4,7 @@ jobs:
         docker:
            - image: python:3.7-alpine3.11
         steps: 
-           - checkout
-           - run:
-                 name: Install ssh
-                 command: |
-                     apk update && apk add openssh
-           - run:
-                 name: Install ssh
-                 command: |
-                        ssh-keyscan ec2-54-188-13-132.us-west-2.compute.amazonaws.com > ~/.ssh/known_hosts
-           
+           - checkout         
                  
            - add_ssh_keys:
                 fingerprints: ["99:ae:02:6c:2d:e4:eb:3c:2e:84:ba:44:60:c4:21:90"]
@@ -26,7 +17,28 @@ jobs:
                  name: Configure Server
                  command: |
                      ansible-playbook -i .ansible/inventory .ansible/playbook.yml
+
+    smoke_test:
+        docker:
+            - image: alpine:latest
+        steps:
+            - run: apk add --update curl
+            - run:
+                name: smoke test
+                command: |
+                    URL="https://blog.udacity.com/"
+                    if curl -s --head ${URL} # test if blog.udacity. com exists
+                    then
+                    return 0
+                    else
+                    return 1
+                    fi
+
+
 workflows:
     my_workflow:
         jobs:
            - create_infrastructure
+           - smoke_test:
+                requires:
+                    - create_infrastructure
