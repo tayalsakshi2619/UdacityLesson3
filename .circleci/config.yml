@@ -5,6 +5,11 @@ jobs:
            - image: python:3.7-alpine3.11
         steps: 
            - checkout
+           - run:
+                 name: Add key to known hosts
+                 command: |
+                     ssh-keyscan ec2-54-188-13-132.us-west-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+                 
            - add_ssh_keys:
                 fingerprints: "99:ae:02:6c:2d:e4:eb:3c:2e:84:ba:44:60:c4:21:90"
            - run:
