@@ -5,7 +5,7 @@ Resources:
             SecurityGroups:
                - !Ref InstanceSecurityGroup
             KeyName: Project3
-            ImageId: 'ami-03d5c68bab01f3496'
+            ImageId: 'ami-0ac73f33a1888c64'
 
     InstanceSecurityGroup:
         Type: 'AWS::EC2::SecurityGroup'
