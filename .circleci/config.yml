@@ -6,6 +6,11 @@ jobs:
         steps: 
            - checkout
            - run:
+                 name: Install ssh
+                 command: |
+                     sudo apt-get update
+                     sudo apt-get install ssh
+           - run:
                  name: Add key to known hosts
                  command: |
                      ssh-keyscan ec2-54-188-13-132.us-west-2.compute.amazonaws.com >> ~/.ssh/known_hosts
@@ -15,7 +20,7 @@ jobs:
            - run:
                  name: Install Dependencies
                  command: |
-                     apk add --update ansible
+                     apk add --update ansible                    
 
            - run:
                  name: Configure Server
